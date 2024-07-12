@@ -9,7 +9,7 @@ $D = a + b \epsilon$ subject to $\epsilon^2 = 0$
 
 Seasoned physicists, even without dwelling into the algebra and arithemtic that these numbers have, realise a _very_ useful application for analytic functions.
 
-Let a smooth function $f(x)$ be analytic in some region of radi $\delta$ around $x_0$: then near point $x_0$, we have that $f(x_0+\delta) = f(x_0) + f'(x_0)\delta + O(\delta^2)$. Conviently, if we interpret $x_0 + y_0 \delta$ as _dual_ number $x_0 + \epsilon y_0$, then we end up exactly with $f(x_0+y_0\delta) = f(x_0) + f'(x_0) y_0 \epsilon$ as $\epsilon^2 = 0$. 
+Let a smooth function $f(x)$ be analytic in some region of radi $\Delta$ around $x_0$: then near point $\delta < \Delta $,  $x_0$, we have that $f(x_0+\delta) = f(x_0) + f'(x_0)\delta + O(\delta^2)$. Conviently, if we interpret $x_0 + y_0 \delta$ as _dual_ number $x_0 + \epsilon y_0$, then we end up exactly with $f(x_0+y_0\delta) = f(x_0) + f'(x_0) y_0 \epsilon$ as $\epsilon^2 = 0$. 
 
 I.e. as long as we can represent a function's value when taking a dual number, which result we denote $x_0^1 + \epsilon y_0^1$, we can calculate the analytic derivative _exactly_. This already has immense benefits over using finite-difference methods, but the true power lies in its applications of the chain rule. If we have a process that can not be represented in a single function for one reason or another (typically memory or other limits) but is instead decomposed into a number of nested functions $f_1(f_2(f_3(...f_n(x))))$, to use a finite difference based differention, we would need to manually apply our finite difference scheme at every step, store it for a later use in the chain rule, all while stacking up errors resulting from discretization _and_ floating point errors.
 
