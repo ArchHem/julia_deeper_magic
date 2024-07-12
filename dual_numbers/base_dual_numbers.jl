@@ -1,7 +1,7 @@
 #large credit goes to Peter554 at https://discourse.julialang.org/t/dual-number-magic/11238
 module DualNumbers
 
-import Base: +, -, *, /, ^, log, exp, sin, cos, show, convert, ==, isapprox, promote_rule
+import Base: +, -, *, /, ^, log, exp, sin, cos, show, convert, ==, isapprox, promote_rule, <, >, sign, abs
 
 struct DualNumber{T<:Real} <: Number
     a::T
@@ -36,9 +36,19 @@ one(::Type{DualNumber{T}}) where {T<:Real}= DualNumber{T}(1,0)
 ==(y::U,x::DualNumber{T}) where {T<:Real, U<:Real} = x.a == y && x.b == 0
 
 #define approx. relations under the system st. ϵ = 0
+
+#we can probably drop the type declarations, it wont get us much speed.
 isapprox(x::DualNumber{T},y::DualNumber{U}) where {T<:Real, U<:Real} = x.a == y.a 
 isapprox(x::DualNumber{T},y::U) where {T<:Real, U<:Real} = x.a == y 
 isapprox(y::U,x::DualNumber{T}) where {T<:Real, U<:Real} = x.a == y
+
+
+#Other arithemtic relations
+<(x::DualNumber,y::DualNumber) = x.a != y.a ? x.a < y.a : x.b < y.b
+>(x::DualNumber,y::DualNumber) = x.a != y.a ? x.a > y.a : x.b > y.b
+
+<(x::DualNumber,y::T) where {T<:Real} = <(promote(x,y)...)
+>(x::DualNumber,y::T) where {T<:Real} = >(promote(x,y)...)
 
 
 #arithmetics
@@ -74,12 +84,28 @@ sin(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(sin(x.a),x.b*cos(x.a))
 ^(x::DualNumber,y::U) where {U<:Int} = ^(promote(x,y)...)
 ^(x::DualNumber,y::U) where {U<:AbstractFloat} = ^(promote(x,y)...)
 
+#auxillary operations
+sign(x::DualNumber) = sign(x.a) == 0 ? sign(x.b) : sign(x.a)
+
+#this is to bind duals for differentiation of abs() function. The actual magnitude is more analogous to abs(x.a)
+
+abs(x::DualNumber) = x.a == 0.0 ? DualNumber(abs(x.a),0.0) : DualNumber(abs(x.a),x.b*sign(x.a))
 
 #the infamous 'epsilon'
 const ϵ = DualNumber(0.0,1.0)
 
 #printing
-show(io::IO,X::DualNumber) = print(io,"$(X.a) + $(X.b)ϵ")
+function local_support_str(x::Real)
+    if sign(x) > 0
+        "+"
+    elseif  sign(x) < 0
+        "-"
+    else
+        "+"
+    end
+end
+
+show(io::IO,X::DualNumber) = print(io,"$(X.a)"*local_support_str(X.b)*"$(abs(X.b))ϵ")
 
 export DualNumber, ϵ, realpart, hyperpart
 
@@ -92,7 +118,7 @@ using .DualNumbers
 X = DualNumber(1, 2)
 Y = DualNumber(4/3, 4)
 Z = DualNumber(4/3, 3)
-Q = DualNumber(5.0, 1)
+Q = DualNumber(5.0, -1)
 N = 5
 R = 6.0
 =#
