@@ -5,7 +5,7 @@ This is a reposetory where I implement interesting concepts I came across throug
 
 Dual numbers are an extension of the reals, of the form:
 
-$D = a + b\epsilon $ subject to $\epsilon^2 = 0$ 
+$D = a + b \epsilon$ subject to $\epsilon^2 = 0$ 
 
 Seasoned physicists, even without dwelling into the algebra and arithemtic that these numbers have a _very_ useful application for analytic functions.
 
