@@ -1,5 +1,5 @@
 # julia_deeper_magic
-This is a reposetory where I implement interesting concepts I came across throughout the years. Not all these problems are particularly useful but still offer valuable insight. 
+This is a reposetory where I implement interesting concepts I came across throughout the years or mess around with 'lower level' programming. Not all these problems are particularly useful but still offer valuable insight. 
 
 ## Dual Numbers
 
