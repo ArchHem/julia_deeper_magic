@@ -17,7 +17,7 @@ With dual numbers, this became almost trivial. By defining how every function an
 
 ![Dual_vs_finite](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/dual_vs_finite_deriv_02.png)
 
-The above plot was produced on the relative difference from the 'true' derivative using a second order discretization method (midpoint) on a function that involved some minor (4-5 layers) nesting of basic functions (arithmetic operators, $\log, \cos, \sin, \exp$ etc.) 
+The above plot was produced on the relative difference from the 'true' derivative using a second order discretization method (midpoint) on a function that involved some minor (4-5 layers) nesting of basic functions (arithmetic operators, $\log{}, \cos{}, \sin{}, \exp{}$ etc.) 
 
 Dual numbers have an obvious use case in gradient-descent based ML algorithms, where they can be used to evalute the loss and activation function's (whatever they might be) derivatives to artbitrary precision, which helps a lot if discretization based methods run into problems (read: the function is no longer analytic within the discretization distance $\delta x$).
 
