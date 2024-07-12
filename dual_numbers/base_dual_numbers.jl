@@ -59,7 +59,9 @@ isapprox(y::U,x::DualNumber{T}) where {T<:Real, U<:Real} = x.a == y
 #this is a deliberate, if ill-advised taking of the limit 
 ^(x::DualNumber, y::DualNumber) = begin
     if x.a == 0
-        DualNumber(x.a^y.a, 0.0)
+        DualNumber(0.0, 0.0)
+    elseif y.b == 0.0
+        DualNumber(x.a^y.a, (x.a^y.a) * (x.b*y.a/x.a))
     else
         DualNumber(x.a^y.a, (x.a^y.a) * (y.b*log(x.a) + x.b*y.a/x.a))
     end
@@ -96,6 +98,7 @@ const ϵ = DualNumber(0.0,1.0)
 
 #printing
 function local_support_str(x::Real)
+    #could be implemented as single ? : 
     if sign(x) > 0
         "+"
     elseif  sign(x) < 0
