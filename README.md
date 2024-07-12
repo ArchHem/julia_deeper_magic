@@ -7,7 +7,7 @@ Dual numbers are an extension of the reals, of the form:
 
 $D = a + b \epsilon$ subject to $\epsilon^2 = 0$ 
 
-Seasoned physicists, even without dwelling into the algebra and arithemtic that these numbers have a _very_ useful application for analytic functions.
+Seasoned physicists, even without dwelling into the algebra and arithemtic that these numbers have, realise a _very_ useful application for analytic functions.
 
 Let a smooth function $f(x)$ be analytic in some region of radi $\delta$ around $x_0$: then near point $x_0$, we have that $f(x_0+\delta) = f(x_0) + f'(x_0)\delta + O(\delta^2)$. Conviently, if we interpret $x_0 + y_0 \delta$ as _dual_ number $x_0 + \epsilon y_0$, then we end up exactly with $f(x_0+y_0\delta) = f(x_0) + f'(x_0) y_0 \epsilon$ as $\epsilon^2 = 0$. 
 
