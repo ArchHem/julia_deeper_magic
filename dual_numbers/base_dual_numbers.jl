@@ -55,10 +55,13 @@ isapprox(y::U,x::DualNumber{T}) where {T<:Real, U<:Real} = x.a == y
     end
 end
 
+realpart(x::DualNumber) = x.a
+hyperpart(x::DualNumber) = x.b
+
 
 #single arg functions - maybe U declaration can be discarded?
 exp(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(exp(x.a),exp(x.a)*x.b)
-log(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(log(x.a), x.b/x.b)
+log(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(log(x.a), x.b/x.a)
 cos(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(cos(x.a),-x.b*sin(x.a))
 sin(x::DualNumber{U}) where {U<:Real} = DualNumber{U}(sin(x.a),x.b*cos(x.a))
 
@@ -78,11 +81,13 @@ const ϵ = DualNumber(0.0,1.0)
 #printing
 show(io::IO,X::DualNumber) = print(io,"$(X.a) + $(X.b)ϵ")
 
-export DualNumber, ϵ
+export DualNumber, ϵ, realpart, hyperpart
 
 end
 
 #TESTS
+
+#=
 using .DualNumbers
 X = DualNumber(1, 2)
 Y = DualNumber(4/3, 4)
@@ -90,6 +95,7 @@ Z = DualNumber(4/3, 3)
 Q = DualNumber(5.0, 1)
 N = 5
 R = 6.0
+=#
 
 
 
