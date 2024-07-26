@@ -23,5 +23,12 @@ Dual numbers have an obvious use case in gradient-descent based ML algorithms, w
 
 Another use case lies in financial risk analysis, where such powerful differentiation can be used to evaluate the so called 'greeks' associated with a particular portfolio/option. However, some of these quantities are second or third order derivatives, meaning that we either need to iteratively apply dual numbers together with discrete differentiation (discarding a large part of their advantage) or use other kinds of hyperreal numbers. Such implementations do exists, but are harder to implement 'by hand' and typically require metaprogramming.
 
+## Probabilistic algorithms
+
+## Monte Carlo algorithms
+
+## Las Vegas algorithms
+
+## Atlantic City algorithms
 
 
