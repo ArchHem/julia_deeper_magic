@@ -25,10 +25,20 @@ Another use case lies in financial risk analysis, where such powerful differenti
 
 ## Probabilistic algorithms
 
-## Monte Carlo algorithms
+# Monte Carlo algorithms
 
-## Las Vegas algorithms
+Monte Carlo algorithms refer to algorithms which have bound runtime but may produce incorrect results (within certain error bounds). The simplest example would be Monte-Carlo integrators that are particularly useful for evaluating high-dimensional ($N>>>5$) dimensional integrals and scale much better than a grid-based (quad) integrators. Some more obscure examples are the Karger min-cut finder algorithm and 'global' minimizers like simulated annealing. 
 
-## Atlantic City algorithms
+# Las Vegas algorithms
+
+Las Vegas algorithms are algorithms that do not have a bound runtime but _always_ procude correct results. An example would be _naive_ rejection sampling which may never finish running (especially for poor choice of a 'ceiling') but will always produce samples from the exact underlying distribution. 
+
+Most Las vegas algorithms can be converted to Monte Carlo methods by terminating the algorithm after a certain time.
+
+# Atlantic City algorithms
+
+Atlantic city algorithms refer to polynomial-time algorithms that answer a binary problem with probability $p>0.5$. Repeated runnings of an Atlantic City algorithm thus can be used to construct binary Monte-Carlo algorithms.
+
+## Examples 
 
 
