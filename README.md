@@ -51,5 +51,7 @@ Real-life implementations (eg. Karger-Stein) of min-cut finder use more sophisti
 
 For actual implementation, we need an efficient way of representing the gradual contraction of the graph, known a 'union-find' datastructure, which was provided by `DataStructures.jl`. Union-find datastructures provide efficient ways of taking the union between disjoint sets and keeping track of which element belong in which sets (most notably, they allow for extremely slowly-scaling time complexity for finding elements). 
 
+A toy implemnetation can be found `karger_algo.jl` file. Interestingly, the 'kernel' function I came up after toying with the `DisJointSet` datatstructure very closely resembles the `Graphs.jl` implementation (which uses superior control flow but functionally is _very_ similar).
+
 
 
