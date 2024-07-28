@@ -41,4 +41,15 @@ Atlantic city algorithms refer to polynomial-time algorithms that answer a binar
 
 ## Examples 
 
+# Karger's Algorithm
+
+Karger's Algorithm (probably) finds the minimum cut of a simple graph, that is the, 'splitting' of the graph into two sub-graphs such that the number of edges between them is minimal. It works by repeatedly 'contracting/merging' vertices along existing edges until there is only two meta-vertices left. The number of cuts between these two meta-vertices is thus a possible 'cut's cost of the original graph. Karger's algorithm beats deterministic approaches in expected scaling: intuitively, by contracting vertices along edges at random, vertices that have larger number of connections/part of more edges (i.e. part of a 'cluster') will be contracted with a larger probability than vertices that form the periphery of such a cluster. 
+
+By repeatedly running the algorithm and always updating the best, found cut, we can ensure that with high probability we will find the global minimum cut. 
+
+Real-life implementations (eg. Karger-Stein) of min-cut finder use more sophisticated methods, though: they typically terminate at a certain meta-vertex count and switch to some slower, but deterministic algorithm at the end, drastically improving the chance of success and thus reduce the number of runs needed to find a minimum cut with an acceptable probability. 
+
+For actual implementation, we need an efficient way of representing the gradual contraction of the graph, known a 'union-find' datastructure, which was provided by `DataStructures.jl`. Union-find datastructures provide efficient ways of taking the union between disjoint sets and keeping track of which element belong in which sets (most notably, they allow for extremely slowly-scaling time complexity for finding elements). 
+
+
 
