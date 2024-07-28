@@ -31,9 +31,9 @@ Monte Carlo algorithms refer to algorithms which have bound runtime but may prod
 
 # Las Vegas algorithms
 
-Las Vegas algorithms are algorithms that do not have a bound runtime but _always_ procude correct results. An example would be _naive_ rejection sampling which may never finish running (especially for poor choice of a 'ceiling') but will always produce samples from the exact underlying distribution. 
+Las Vegas algorithms are algorithms that do not have a 'fixed' runtime but _always_ procude correct results. An example would be _naive_ rejection sampling which may never finish running for certain random seeds (especially for poor choice of a 'ceiling') but will always produce samples from the exact underlying distribution. 
 
-Most Las vegas algorithms can be converted to Monte Carlo methods by terminating the algorithm after a certain time.
+Most Las Vegas algorithms can be converted to Monte Carlo methods by terminating the algorithm after a certain time.
 
 # Atlantic City algorithms
 
@@ -58,6 +58,18 @@ A toy implemnetation can be found `karger_algo.jl` file. Interestingly, the 'ker
 The results of the 'cut' can be visualized rather easily using a `Plots.jl` backend with vertex coloring. Above is an example of a (succesfull) Karger run. We have performed further runs on some easily-generated graphs, like Erdős-Rényi and Barabási graphs (the later being an example where as small subset of the vertices have most of the edges). Bellow is an image of a (post-critical) Erdős graph. 
 
 ![Algo run on a Erdős graph](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Karger_erdos_renyi.png)
+
+# 'Practical' quicksort
+
+Quicksort is _the_ divide-and-conquer sorting algorithm (alongside mergesort). What is less known that its most common implementation is technically a Las Vegas algorithm.
+
+In quicksort, the array is divided into gradually smaller and smaller portions where we choose a _pivot_ element around which we re-order the array (smaller elements than the pivot go to the left of the pivot, larger the other way). This happens in-place, via swap operations and does not need to allocate thus. 
+
+A _naive_ implementations either uses the last or first element of each (sub)-array as the pivot. However, it can be seen that for some special arrays - namely, for the choice of the pivot as the first element - (nearly) sorted arrays will scale as $O(n^)$ instead of the expected $O(n\log{n})$! 
+
+Using a _random_ element as the pivot for each array does away with this problem and ensures an average time complexity of $O(n \log{n})$ at the cost of introducing some minor overhead of generating random integers for indexing. 
+
+TBA: Plots
 
 
 
