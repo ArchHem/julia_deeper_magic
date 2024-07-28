@@ -55,7 +55,9 @@ A toy implemnetation can be found `karger_algo.jl` file. Interestingly, the 'ker
 
 ![Karger's algorithm performed on 2 cirques](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Karger_2_cirques.png)
 
-The results of the 'cut' can be visualized rather easily using a `Plots.jl` backend with vertex coloring. Above is an example of a (succesfull) Karger run. We have performed further runs on some easily-generated graphs, like Erdős-Rényi and Barabási graphs (the later being an example where as small subset of the vertices have most of the edges). 
+The results of the 'cut' can be visualized rather easily using a `Plots.jl` backend with vertex coloring. Above is an example of a (succesfull) Karger run. We have performed further runs on some easily-generated graphs, like Erdős-Rényi and Barabási graphs (the later being an example where as small subset of the vertices have most of the edges). Bellow is an image of a (post-critical) Erdős graph. 
+
+![Algo run on a Erdős graph](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Karger_erdos_renyi.png)
 
 
 
