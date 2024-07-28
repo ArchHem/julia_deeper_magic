@@ -65,7 +65,7 @@ Quicksort is _the_ divide-and-conquer sorting algorithm (alongside mergesort). W
 
 In quicksort, the array is divided into gradually smaller and smaller portions where we choose a _pivot_ element around which we re-order the array (smaller elements than the pivot go to the left of the pivot, larger the other way). This happens in-place, via swap operations and does not need to allocate thus. 
 
-A _naive_ implementations either uses the last or first element of each (sub)-array as the pivot. However, it can be seen that for some special arrays - namely, for the choice of the pivot as the first element - (nearly) sorted arrays will scale as $O(n^)$ instead of the expected $O(n\log{n})$! 
+A _naive_ implementations either uses the last or first element of each (sub)-array as the pivot. However, it can be seen that for some special arrays - namely, for the choice of the pivot as the first element - (nearly) sorted arrays will scale as $O(n^2)$ instead of the expected $O(n\log{n})$! 
 
 Using a _random_ element as the pivot for each array does away with this problem and ensures an average time complexity of $O(n \log{n})$ at the cost of introducing some minor overhead of generating random integers for indexing. 
 
