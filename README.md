@@ -37,7 +37,7 @@ Most Las Vegas algorithms can be converted to Monte Carlo methods by terminating
 
 # Atlantic City algorithms
 
-Atlantic city algorithms refer to polynomial-time algorithms that answer a binary problem with probability $p>0.5$. Repeated runnings of an Atlantic City algorithm thus can be used to construct binary Monte-Carlo algorithms.
+Atlantic city algorithms refer to polynomial-time algorithms that answer a binary problem correctly with probability $p>0.5$. Repeated runnings of an Atlantic City algorithm thus can be used to construct binary Monte-Carlo algorithms.
 
 ## Examples 
 
