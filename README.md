@@ -69,7 +69,22 @@ A _naive_ implementations either uses the last or first element of each (sub)-ar
 
 Using a _random_ element as the pivot for each array does away with this problem and ensures an average time complexity of $O(n \log{n})$ at the cost of introducing some minor overhead of generating random integers for indexing. 
 
-TBA: Plots
+For vectors populated by values drawn from a unit random distribution - `randn()` - the two different quicksort!() implementations have a very similar performance. We have evaluted the average time to execution using `BenchMarkTools.jl`, each time running on a different seed.
+
+![randn()_quicksort](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/quicksort_randn.png)
+
+As we can see, for pretty much all vector lengths, the randomized quicksort has a small overhead but the two algorithms offer the same scaling.
+
+For nearly sorted arrays (where we have taken a sorted array and randomly swapped 5% of its elements around) the dependence becomes much clearer.
+
+![randn()_quicksort](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/quicksort_nearly_sorted.png)
+
+As we can see, the 1-pivot quicksort quickly reverts to a dramatically worse (quadratic) scaling. 
+
+# Simulated annealing 
+
+# Metropolis-Hasting
+
 
 
 
