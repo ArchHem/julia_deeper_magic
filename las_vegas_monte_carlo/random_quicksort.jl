@@ -133,6 +133,7 @@ color =:red, label = "1-Pivot Quicksort", dpi = 1200)
 plot!(p1, Ns,t2,color =:green, label = "Random-Pivot Quicksort")
 =#
 
+#=
 t1, t2, Ns = @time compare_methods_near_sorted(2,100,4)
 
 p1 = plot(Ns,t1, xlabel = "Array size", 
@@ -140,7 +141,7 @@ ylabel = "post-JIT execution time (s)",
 title = "Quicksort!() on nearly-sorted arrays", grid = true,
 color =:red, label = "1-Pivot Quicksort", dpi = 1200)
 plot!(p1, Ns,t2,color =:green, label = "Random-Pivot Quicksort")
-
+=#
 
 
 
