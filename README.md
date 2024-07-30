@@ -31,13 +31,13 @@ Monte Carlo algorithms refer to algorithms which have bound runtime but may prod
 
 # Las Vegas algorithms
 
-Las Vegas algorithms are algorithms that do not have a bound runtime but _always_ procude correct results. An example would be _naive_ rejection sampling which may never finish running (especially for poor choice of a 'ceiling') but will always produce samples from the exact underlying distribution. 
+Las Vegas algorithms are algorithms that do not have a 'fixed' runtime but _always_ procude correct results. An example would be _naive_ rejection sampling which may never finish running for certain random seeds (especially for poor choice of a 'ceiling') but will always produce samples from the exact underlying distribution. 
 
-Most Las vegas algorithms can be converted to Monte Carlo methods by terminating the algorithm after a certain time.
+Most Las Vegas algorithms can be converted to Monte Carlo methods by terminating the algorithm after a certain time.
 
 # Atlantic City algorithms
 
-Atlantic city algorithms refer to polynomial-time algorithms that answer a binary problem with probability $p>0.5$. Repeated runnings of an Atlantic City algorithm thus can be used to construct binary Monte-Carlo algorithms.
+Atlantic city algorithms refer to polynomial-time algorithms that answer a binary problem correctly with probability $p>0.5$. Repeated runnings of an Atlantic City algorithm thus can be used to construct binary Monte-Carlo algorithms.
 
 ## Examples 
 
@@ -52,6 +52,39 @@ Real-life implementations (eg. Karger-Stein) of min-cut finder use more sophisti
 For actual implementation, we need an efficient way of representing the gradual contraction of the graph, known a 'union-find' datastructure, which was provided by `DataStructures.jl`. Union-find datastructures provide efficient ways of taking the union between disjoint sets and keeping track of which element belong in which sets (most notably, they allow for extremely slowly-scaling time complexity for finding elements). 
 
 A toy implemnetation can be found `karger_algo.jl` file. Interestingly, the 'kernel' function I came up after toying with the `DisJointSet` datatstructure very closely resembles the `Graphs.jl` implementation (which uses superior control flow but functionally is _very_ similar).
+
+![Karger's algorithm performed on 2 cirques](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Karger_2_cirques.png)
+
+The results of the 'cut' can be visualized rather easily using a `Plots.jl` backend with vertex coloring. Above is an example of a (succesfull) Karger run. We have performed further runs on some easily-generated graphs, like Erdős-Rényi and Barabási graphs (the later being an example where as small subset of the vertices have most of the edges). Bellow is an image of a (post-critical) Erdős graph. 
+
+![Algo run on a Erdős graph](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Karger_erdos_renyi.png)
+
+# 'Practical' quicksort
+
+Quicksort is _the_ divide-and-conquer sorting algorithm (alongside mergesort). What is less known that its most common implementation is technically a Las Vegas algorithm.
+
+In quicksort, the array is divided into gradually smaller and smaller portions where we choose a _pivot_ element around which we re-order the array (smaller elements than the pivot go to the left of the pivot, larger the other way). This happens in-place, via swap operations and does not need to allocate thus. 
+
+A _naive_ implementations either uses the last or first element of each (sub)-array as the pivot. However, it can be seen that for some special arrays - namely, for the choice of the pivot as the first element - (nearly) sorted arrays will scale as $O(n^2)$ instead of the expected $O(n\log{n})$! 
+
+Using a _random_ element as the pivot for each array does away with this problem and ensures an average time complexity of $O(n \log{n})$ at the cost of introducing some minor overhead of generating random integers for indexing. 
+
+For vectors populated by values drawn from a unit random distribution - `randn()` - the two different quicksort!() implementations have a very similar performance. We have evaluted the average time to execution using `BenchMarkTools.jl`, each time running on a different seed.
+
+![randn()_quicksort](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/quicksort_randn.png)
+
+As we can see, for pretty much all vector lengths, the randomized quicksort has a small overhead but the two algorithms offer the same scaling.
+
+For nearly sorted arrays (where we have taken a sorted array and randomly swapped 5% of its elements around) the dependence becomes much clearer.
+
+![randn()_quicksort](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/quicksort_nearly_sorted.png)
+
+As we can see, the 1-pivot quicksort quickly reverts to a dramatically worse (quadratic) scaling. 
+
+# Simulated annealing 
+
+# Metropolis-Hasting
+
 
 
 
