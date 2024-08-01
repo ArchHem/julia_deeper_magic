@@ -83,6 +83,21 @@ As we can see, the 1-pivot quicksort quickly reverts to a dramatically worse (qu
 
 # Simulated annealing 
 
+Simulated annealing refers to a class of 'global' minimization techniques that are applicable to (scalar) functions. 
+
+Given some unknown function $F(\vec{v})$ ($R^n->R^n$) which might not even be analytic and a stochastic 'perturbation' $G(\vec{v}, \vec{\lambda}) -> \vec{x}$ (i.e. $R^n -> R^n$), typically a multi-dimensional Gaussian centered around $\vec{x}$ with some covariance, expressed in terms of $\lambda$ and a 'temperature function' $T(k): R^1 -> R^1$, we may attempt to find a global minima via the following steps:
+
+1. Evolve the 'time' parameter: $k = k + \delta k$
+2. Evolve the temperature $T = T(k)$
+3. 'propose' a new minima, $\vec{x}' = G(\vec{v}, \vec{\lambda})$
+4. If F(\vec{x}') < F(\vec{x}), accept $x'$ as the new minima $x$. Otherwise, accept $x'$ as the new minima with probability equal to: $\exp{-(F(\vec{x}') - F(\vec{x}))/T}$ú
+5. Repeat for some fixed timesteps.
+   
+This algorithm will initially make greater 'leaps' but will settle into a local minima as the system 'cools'. In many cases, this behaviour will ensure much better convergence then SGD-s do, but are somewhat more suspectible to changes in its hyperparameters. 
+
+
+
+
 # Metropolis-Hasting
 
 
