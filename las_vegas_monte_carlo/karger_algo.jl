@@ -70,7 +70,7 @@ n2 = 8
 total_vertices = n1 + n2
 g = Graph(total_vertices)
 
-#there gotta be a better way tbh
+#there gotta be a better way
 for u in 1:n1
     for v in (u+1):n1
         add_edge!(g, u, v)
