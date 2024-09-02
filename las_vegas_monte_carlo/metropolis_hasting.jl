@@ -20,86 +20,57 @@ struct MHBinder{U}
 end
 
 
-function execute_mh(log_prob_func, model::MHBinder, x0::AbstractArray{T}; max_steps::N) where {T<:AbstractFloat,N<:Integer}
+function execute_mh(prob_func, model::MHBinder, x0::AbstractArray{T}; max_steps::N) where {T<:AbstractFloat,N<:Integer}
     ref = zero(T)
-    val0 = log_prob_func(x0)
+    val0 = prob_func(x0)
+    tracker_x0 = Vector{typeof(x0)}(undef,max_steps)
+    index = 1
 
-    for i in ProgressBar(1:max_steps)
+    while index < max_steps
 
         new_x0 = model.proposal_func(x0)
-        new_val0 = log_prob_func(new_x0)
+        new_val0 = prob_func(new_x0)
 
-        dval = new_val0 - val0
-        if dval > ref || rand(T) < exp(dval)
+        dval = new_val0/val0
+        if rand(T) < dval
             x0 = new_x0
             val0 = new_val0
+            index += 1
+            tracker_x0[index] = x0
         end
     end
-    return x0, val0
+    return tracker_x0
 end
 
-# Execute Metropolis-Hastings with tracking
-function execute_mh_tracked(log_prob_func, model::MHBinder, x0::AbstractArray{T}; max_steps::N) where {T<:AbstractFloat,N<:Integer}
-    ref = zero(T)
-    val0 = log_prob_func(x0)
-    tracker_x0= Vector{typeof(x0)}(undef,max_steps)
-    tracker_val0 = Vector{T}(undef,max_steps)
 
-    for i in ProgressBar(1:max_steps)
-        tracker_x0[i] = x0
-        tracker_val0[i] = val0
-
-        new_x0 = model.proposal_func(x0)
-        new_val0 = log_prob_func(new_x0)
-
-        dval = new_val0 - val0
-        if dval > ref || rand(T) < exp(dval)
-            x0 = new_x0
-            val0 = new_val0
-        end
-    end
-    return x0, val0, tracker_x0, tracker_val0
-end
 
 # Module export
-export Gaussian_perturbator, MHBinder, execute_mh, execute_mh_tracked
+export Gaussian_perturbator, MHBinder, execute_mh
 
 end
 
-using Test
+using Plots, BenchmarkTools
+using Distributions, Statistics
 using StaticArrays
 using .MetropolisHastings
 
-
-log_prob(x) = -0.5 * sum(x .^ 2)
-
-
-@testset "Gaussian Perturbator" begin
-    x0 = SA[0.0]
-    σ = SA[1.0]
-    NDim = 1
-    perturbed_x = Gaussian_perturbator(x0; σ=σ, NDim=NDim)
-    @test length(perturbed_x) == 1
+function prob_(x)
+    dist = sum(x.^2)
+    prob = exp(-dist) * abs(sin(dist))
+    return prob
 end
 
+x0 = @SVector [0.0,]
 
-@testset "Metropolis-Hastings" begin
-    x0 = SA[0.0]
-    σ = SA[1.0]
-    var_params = (σ=σ, NDim=1)
-    model = MHBinder(Gaussian_perturbator, var_params)
+proposal = Gaussian_perturbator
+ndims = 1
+sigma = @SVector [0.6]
+params = (σ = sigma, NDim = ndims )
+object_ = MHBinder(proposal,params)
 
-    xf, valf = execute_mh(log_prob, model, x0, max_steps=1000)
-    @test isfinite(valf)
-end
 
-@testset "Metropolis-Hastings Tracking" begin
-    x0 = SA[0.0]
-    σ = SA[1.0]
-    var_params = (σ=σ, NDim=1)
-    model = MHBinder(Gaussian_perturbator, var_params)
+x0s = execute_mh(prob_,object_,x0,max_steps=1000000)
+x0s = Vector.(x0s)
+x0s = vcat(x0s...)
 
-    xf, valf, x0_p, val_p = execute_mh_tracked(log_prob, model, x0, max_steps=1000)
-    @test length(x0_p) <= 1000
-    @test all(isfinite, val_p)
-end
+histogram(x0s, normalization = :pdf, xlabel = "x", ylabel = "∝ P(x)", label = "MH samples", color = :green, dpi = 1500)
