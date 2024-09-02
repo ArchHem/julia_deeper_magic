@@ -90,12 +90,14 @@ Given some unknown function $F(\vec{v})$ ($R^n->R^n$) which might not even be an
 1. Evolve the 'time' parameter: $k = k + \delta k$
 2. Evolve the temperature $T = T(k)$
 3. 'propose' a new minima, $\vec{x}' = G(\vec{v}, \vec{\lambda})$
-4. If F(\vec{x}') < F(\vec{x}), accept $x'$ as the new minima $x$. Otherwise, accept $x'$ as the new minima with probability equal to: $\exp{-(F(\vec{x}') - F(\vec{x}))/T}$
+4. If $F(\vec{x}') < F(\vec{x})$, accept $x'$ as the new minima $x$. Otherwise, accept $x'$ as the new minima with probability equal to: $\exp{-(F(\vec{x}') - F(\vec{x}))/T}$
 5. Repeat for some fixed timesteps.
    
-This algorithm will initially make greater 'leaps' but will settle into a local minima as the system 'cools'. In many cases, this behaviour will ensure much better convergence then SGD-s do, but are somewhat more suspectible to changes in its hyperparameters. 
+This algorithm will initially make greater 'leaps' but will settle into a local minima as the system 'cools'. In many cases, this behaviour will ensure much better convergence then SGD-s do, but are somewhat more suspectible to changes in its hyperparameters. Most notably, simulated annealing does _not require the target function to be analytic, anywhere_ which makes it ideal for blackbox optimization cases.
 
+On a practical level, SE offers some benefits over SGDs as well: smart implementations may use paralell-running annealing paths where for higher dimensionsonal problems (which might be problematic for SGDs).
 
+![1d_anneal](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/1D_annealing.png)
 
 # Metropolis-Hasting
 
