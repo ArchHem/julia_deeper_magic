@@ -101,6 +101,21 @@ On a practical level, SE offers some benefits over SGDs as well: smart implement
 
 # Metropolis-Hasting
 
+The Metroplis-Hasting algorithm allows for drawing an arbitrary amount of samples from a distribution whose analytic form need not be known (in fact, it can be _any_ function). Most notably, it requires only a function proportional to the actual distribution, i.e. it need not be normalized (!). Its algorithmic form is very similar to that employed by the simulated annealing algorithm above. 
+
+Given a function $F(\vec{x})$ that is proportinal to the underlying distribution $P(x)$, we may draw $N$ samples via:
+
+1. Initalize a while loop which runs until we have drawn N samples.
+2. Designate the inital sample $\vec{x}_0$ (can be chosen randomly)
+3. Using a symetric 'noise', designate a new potential sample as $\vec{x}' = G(\vec{v}, \vec{\lambda})$
+4. Accept $\vec{x}'$ with probability $\vec{x}'/\vec{x}$
+5. Set \vec{x} = \vec{x}' and repeat until the while cycle terminates.
+
+
+
+Bellow we can see an example of an MH sampler ran on an 1D distribution. Our implementation allows for arbitray dimensions and arbitrary sample proposal functions. The function used bellow is $\sin(x^2) \exp(-x^2)$. We had designated $x_0 = 0$ and had used a Gaussian proposal func. with 0.5 std.
+![mh_samples](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/MH_samples.png)
+
 
 
 
