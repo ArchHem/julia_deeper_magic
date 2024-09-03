@@ -109,7 +109,7 @@ Given a function $F(\vec{x})$ that is proportinal to the underlying distribution
 2. Designate the inital sample $\vec{x}_0$ (can be chosen randomly)
 3. Using a symetric 'noise', designate a new potential sample as $\vec{x}' = G(\vec{v}, \vec{\lambda})$
 4. Accept $\vec{x}'$ with probability $F(\vec{x}')/F(\vec{x})$
-5. Set \vec{x} = \vec{x}' and repeat until the while cycle terminates.
+5. Set $\vec{x} = \vec{x}'$ and repeat until the while cycle terminates.
 
 
 
