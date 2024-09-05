@@ -107,7 +107,7 @@ Given a function $F(\vec{x})$ that is proportinal to the underlying distribution
 
 1. Initalize a while loop which runs until we have drawn N samples.
 2. Designate the inital sample $\vec{x}_0$ (can be chosen randomly)
-3. Using a symetric 'noise', designate a new potential sample as $\vec{x}' = G(\vec{v}, \vec{\lambda})$
+3. Using a symetric 'noise', designate a new potential sample as $\vec{x}' = G(\vec{x}, \vec{\lambda})$
 4. Accept $\vec{x}'$ with probability $F(\vec{x}')/F(\vec{x})$
 5. Set $\vec{x} = \vec{x}'$ and repeat until the while cycle terminates.
 
@@ -115,6 +115,32 @@ Given a function $F(\vec{x})$ that is proportinal to the underlying distribution
 
 Bellow we can see an example of an MH sampler ran on an 1D distribution. Our implementation allows for arbitray dimensions and arbitrary sample proposal functions. The function used bellow is $\sin(x^2) \exp(-x^2)$. We had designated $x_0 = 0$ and had used a Gaussian proposal func. with 0.5 std.
 ![mh_samples](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/MH_samples.png)
+
+# Scientific Machine Learning 
+
+SciML is one of the (so far) few fields in which the Julia ecosystem has arguably eclipsed the alternatives. This is most apparent in the `DifferentialEquations.jl` and its sister packages, but the relatively good composability of packages mean that there is a lot of 'emergent' applications, most typically combining lower-level `Lux.jl` usage with some other packages. The first example I stumbled upon was the combination of `Turing.jl` (a probabilistic programming framework) and Lux's chain models to produced Bayesian Neural Networks.
+
+## Numerical Inference and Bayesian Neural networks
+
+In a BNN, the weight and bias parameters are modelled as distributions, not as concrete values. Typically, we assume a prior distribution of the form of normals $N(0,\sigma^2)$ where $\sigma$ is typically 'large' initially. 
+
+For example, the prediction of a single layered network, with some activation function $F$ on the hidden layer and unity function on the output, in a BNN is: $\theta_2 F(\theta_1 \dot x + b_1) + b_2$.
+
+With a normal prior, we assume that our model's predictions ($y_p$) are true ($y_t$), with $y_t ∼ Bernuli(y_p)$, for a binary classifier (for regression, we ca use normals: we stress that $y_p$ is a distribution of the input $x$). The posterior distribution of the parameters then appears as (using Bayes's theorem):
+
+$P(\theta ∣ x, y_t) \propto P(\theta) P(x, y_t ∣\theta)$
+
+Since we know the initial distribution P(\theta) and can estimate $P(y_t)$ as per above, we can sample the posterior using a sampler of our choice, like a Metroplis-Hasting algorithm, or a Hamiltonian sampler. For producing actual predictions following this fit, we can just randomly sample our parameter values, or use the ones that corresponded to the highest posterior likelihood.
+
+Fundamentaly, unlike regular NN-s, BNNs thus dont make use of reversediff to fine-tune the parameters: instead they represent the entire model as a (very) convoluted distribution which we numerically sample to obtain the distribution of our parameters. 
+
+The actual implementation of the BNN-s in Julia is relatively easy, combing a 'frozen' state-varible Lux network and using the @model macro from `Turing.jl`. I followed the (slightly) outdated `Lux` tutorial to get an idea for the initial guesses, but the actual data loading is done in a much more 'natural' way. 
+
+We have generated some 200 samples from two, radial normal distributions, and had plotted the network predictions correspondinging to the highest likelihood (i.e. around the point of most uncertainity, or the decision boundary).
+
+![BNN](https://github.com/ArchHem/julia_deeper_magic/blob/main/project_images/Bayesian_nn_circular.png)
+
+
 
 
 
