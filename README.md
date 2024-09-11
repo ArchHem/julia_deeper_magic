@@ -130,9 +130,9 @@ With a normal prior, we assume that our model's predictions ($y_p$) are true ($y
 
 $P(\theta ∣ x, y_t) \propto P(\theta) P(x, y_t ∣\theta)$
 
-Since we know the initial distribution P(\theta) and can estimate $P(y_t)$ as per above, we can sample the posterior using a sampler of our choice, like a Metroplis-Hasting algorithm, or a Hamiltonian sampler. For producing actual predictions following this fit, we can just randomly sample our parameter values, or use the ones that corresponded to the highest posterior likelihood.
+Since we know the initial distribution $P(\theta)$ and can estimate $P(y_t)$ as per above, we can sample the posterior using a sampler of our choice, like a Metroplis-Hasting algorithm, or a Hamiltonian sampler. For producing actual predictions following this fit, we can just randomly sample our parameter values, or use the ones that corresponded to the highest posterior likelihood.
 
-Fundamentaly, unlike regular NN-s, BNNs thus dont make use of reversediff to fine-tune the parameters: instead they represent the entire model as a (very) convoluted distribution which we numerically sample to obtain the distribution of our parameters. 
+Fundamentaly, unlike regular NN-s, BNNs thus dont make use of reversediff to fine-tune the parameters: instead they represent the entire model as a (very) convoluted distribution which we numerically sample to obtain the distribution of our parameters (autodiff may still be used by Hamiltonian samplers). 
 
 The actual implementation of the BNN-s in Julia is relatively easy, combing a 'frozen' state-varible Lux network and using the @model macro from `Turing.jl`. I followed the (slightly) outdated `Lux` tutorial to get an idea for the initial guesses, but the actual data loading is done in a much more 'natural' way. 
 
